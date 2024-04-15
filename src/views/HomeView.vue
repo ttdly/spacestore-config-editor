@@ -25,8 +25,8 @@ const downLoadJson = function () {
 
 <template>
   <div class="action">
-    <div class="primary-button" @click="() => { entitySelectWindowShow = true }">选择物品</div>
-    <div class="primary-button" @click="downLoadJson">下载数据</div>
+    <div class="primary-button" @click="() => { entitySelectWindowShow = true }">选择物品 (Select Items)</div>
+    <div class="primary-button" @click="downLoadJson">下载数据 (Download Configure File)</div>
   </div>
   <ShopWindow />
   <div class="entity-select-window" v-show="entitySelectWindowShow" @click="() => { entitySelectWindowShow = false }">
