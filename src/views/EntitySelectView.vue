@@ -12,7 +12,5 @@ keys.value = Object.keys(ItemData)
 </script>
 
 <template>
-    <template v-for="key in keys">
-      <EntitiesCategory :category-name="key" :entities="database[key]"/>
-    </template>
+  <EntitiesCategory v-for="key in keys" :key="key" :category-name="key" :entities="database[key]"/>
 </template>

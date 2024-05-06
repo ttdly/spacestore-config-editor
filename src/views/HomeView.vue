@@ -4,6 +4,8 @@ import EntitySelectView from './EntitySelectView.vue';
 import ShopWindow from '@/components/ShopWindow.vue';
 import { useSelectedEntitiesStore } from '@/stores/selectedEntities';
 
+const localDocument = document;
+
 const entitySelectWindowShow = ref(false)
 const selectedEntities = useSelectedEntitiesStore();
 
@@ -25,8 +27,10 @@ const downLoadJson = function () {
 
 <template>
   <div class="action">
+    <div class="primary-button" @click="() => localDocument.querySelectorAll('.entity-container').forEach(x => x.click())">初始化全部数据 (Initialize all data)</div>
     <div class="primary-button" @click="() => { entitySelectWindowShow = true }">选择物品 (Select Items)</div>
     <div class="primary-button" @click="downLoadJson">下载数据 (Download Configure File)</div>
+
   </div>
   <ShopWindow />
   <div class="entity-select-window" v-show="entitySelectWindowShow" @click="() => { entitySelectWindowShow = false }">
