@@ -2,9 +2,7 @@
   <div class="entities-category">
     <div class="category-name">{{ props.categoryName }}</div>
     <div class="entities-container">
-      <template v-for="entity in props.entities">
-        <EntityContainer :entity="entity" :cate="categoryName" @click.stop="AddSelf(entity,categoryName)"/>
-      </template>
+      <EntityContainer v-for="(entity, index) in props.entities" :key="index" :entity="entity" :cate="categoryName" @click.stop="AddSelf(entity,categoryName)"/>
     </div>
   </div>
 </template>
@@ -16,7 +14,8 @@ import { useSelectedEntitiesStore } from '@/stores/selectedEntities';
 const props = defineProps(['categoryName', 'entities'])
 const selectedEntities = useSelectedEntitiesStore();
 const AddSelf = function(item, cate){
-  selectedEntities.add(item, cate)
+  selectedEntities.add(item, cate);
+  popup.msg('添加成功！', { clickMaskClose: true });
 }
 </script>
 

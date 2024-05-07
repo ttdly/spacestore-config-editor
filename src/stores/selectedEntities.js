@@ -27,6 +27,10 @@ export const useSelectedEntitiesStore = defineStore('selectedEntities', () => {
     });
   }
 
+  function clear(){
+    list.value = [];
+  }
+
   function tuningList(){
     return list.value.map(({id, quantity, price})=>{
       return{
@@ -36,5 +40,5 @@ export const useSelectedEntitiesStore = defineStore('selectedEntities', () => {
       }
     })
   }
-  return { list, add, remove, update, contains, tuningList }
+  return { list, add, remove, update, clear, contains, tuningList }
 })
