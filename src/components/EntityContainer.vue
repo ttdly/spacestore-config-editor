@@ -19,6 +19,7 @@ const props = defineProps(['entity', 'cate'])
   align-items: center;
   justify-content: flex-end;
   padding: 10px;
+  color: #000;
 }
 
 .ui{
