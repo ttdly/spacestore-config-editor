@@ -1,13 +1,13 @@
 <script setup>
 import EntitiesCategory from "@/components/EntitiesCategory.vue";
 import { ref } from 'vue'
-import {ItemData} from '@/assets/database'
+import {ItemDataZh} from '@/assets/database'
 
 
-const database = ref(ItemData);
+const database = ref(ItemDataZh);
 const keys = ref();
 
-keys.value = Object.keys(ItemData)
+keys.value = Object.keys(ItemDataZh)
 
 </script>
 

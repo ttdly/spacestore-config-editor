@@ -3,9 +3,6 @@ import { ref } from 'vue'
 import EntitySelectView from './EntitySelectView.vue';
 import ShopWindow from '@/components/ShopWindow.vue';
 import { useSelectedEntitiesStore } from '@/stores/selectedEntities';
-import { ItemData } from '@/assets/database'
-
-const localDocument = document;
 
 const entitySelectWindowShow = ref(false)
 const selectedEntities = useSelectedEntitiesStore();
@@ -24,32 +21,17 @@ const downLoadJson = function () {
   URL.revokeObjectURL(url);
 }
 
-const selectAll = function () {
-
-  selectedEntities.clear();
-  const keys = Object.keys(ItemData);
-  keys.forEach(cate => {
-    ItemData[cate].forEach(item => {
-      selectedEntities.add(item, cate);
-    });
-    popup.msg('初始化成功！', { clickMaskClose: true });
-  });
-
-}
-
 </script>
 
 <template>
   <div class="action">
-    <div class="primary-button" @click="selectAll">初始化全部数据 (Initialize all data)</div>
-    <div class="primary-button" @click="() => { entitySelectWindowShow = true }">选择物品 (Select Items)</div>
-    <div class="primary-button" @click="downLoadJson">下载数据 (Download Configure File)</div>
-
+    <div class="primary-button-pink" @click="() => { entitySelectWindowShow = true }">选择物品 (Select Items)</div>
+    <div class="primary-button-pink" @click="downLoadJson">下载数据 (Download Configure File)</div>
   </div>
   <ShopWindow />
   <div class="entity-select-window" v-show="entitySelectWindowShow" @click="() => { entitySelectWindowShow = false }">
     <div class="close-select-window" @click="() => { entitySelectWindowShow = false }">X</div>
-    <EntitySelectView/>
+    <EntitySelectView />
   </div>
 </template>
 

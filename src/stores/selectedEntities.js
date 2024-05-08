@@ -23,7 +23,7 @@ export const useSelectedEntitiesStore = defineStore('selectedEntities', () => {
 
   function contains(id){
     list.value.forEach(element => {
-      if (element.id == id) return true
+      if (element.id === id) return true
     });
   }
 
