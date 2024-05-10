@@ -9,11 +9,6 @@ const entities = useEntitiesStore();
 const change = (lang) => {
     console.log(lang);
     locale.value = lang;
-    if (lang === "en-US") {
-        entities.useEnglish()
-    } else if (lang === "zh-CN") {
-        entities.useChinese()
-    }
 }
 </script>
 
@@ -42,7 +37,6 @@ const change = (lang) => {
   color: #fff;
   height: 50px;
   padding: 0 15px;
-  margin-bottom: 10px;
   border-bottom: #181818 1px solid;
 }
 

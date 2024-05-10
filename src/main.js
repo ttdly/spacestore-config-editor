@@ -24,6 +24,3 @@ app.use(router)
 app.use(i18n)
 
 app.mount('#app')
-
-const entities = useEntitiesStore()
-entities.useChinese()

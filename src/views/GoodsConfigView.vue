@@ -1,138 +1,118 @@
 <script setup>
 import {useEntitiesStore} from "@/stores/entities.js";
 import {ref} from "vue";
-import {useSelectedEntitiesStore} from "@/stores/selectedEntities.js";
+import {useSelectedStore} from "@/stores/selected.js";
+import {useRouter} from "vue-router";
 
-const entities = useEntitiesStore();
+const entitiesId = useEntitiesStore();
 const category = ref([]);
-category.value = Object.keys(entities.list)
-
-const selectedEntities = useSelectedEntitiesStore();
-
-const check = (item, cate)=>{
-    selectedEntities.add(item, cate)
+category.value = Object.keys(entitiesId.list)
+const selected = useSelectedStore();
+const router = useRouter();
+const next = () =>{
+    router.push("/setting");
 }
 
-const downLoadJson = function () {
-    const list = selectedEntities.tuningList()
-    const jsonString = JSON.stringify(list);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `store_${Date.now()}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+const check = (e ,entity_id) => {
+    if (e.target.checked){
+        selected.Add(entity_id)
+    } else {
+        selected.Remove(entity_id)
+    }
 }
 
+const selectAll = () => {
+    selected.list = [];
+    for (let i = 0; i < entitiesId.list.length; i++){
+        selected.Add(entitiesId.list[i])
+    }
+}
+
+const clearAll = () => {
+    selected.list = []
+}
 </script>
 
 <template>
-  <div class="container">
-    <div class="entities-list">
-      <div v-for="cate in Object.keys(entities.list)" class="category-list">
-        <div class="cat">{{cate}}</div>
-        <div class="entities-container">
-          <template v-for="entity in entities.list[cate]">
-            <div class="primary-button-blue entity-container" @click="check(entity, cate)">
-              <img :src="`icon/${entity.id}.png`" alt="" class="ui">
-              <span>{{entity.name}}</span>
-            </div>
-          </template>
-        </div>
-      </div>
-    </div>
-    <div class="selected-list">
-
-      <div class="selected-container">
-        <table width="100%">
-          <tr>
-            <td> ui </td>
-            <td> {{$t("table.name")}} </td>
-            <td> {{$t("table.quantity")}} </td>
-            <td> {{$t("table.price")}} </td>
-            <td> {{$t("table.action")}} </td>
-          </tr>
-          <tr v-for="(entity,index) in selectedEntities.list">
-            <th><img :src="`icon/${entity.id}.png`" alt="" class="ui"></th>
-            <th>{{entity.name}}</th>
-            <th><input type="number" v-model="entity.quantity"></th>
-            <th><input type="number" v-model="entity.price"></th>
-            <th><button @click="selectedEntities.remove(index)">{{$t("action.delete")}}</button></th>
-
-          </tr>
-        </table>
-        <div class="actions">
-          <div class="primary-button-blue" @click="downLoadJson">{{$t("action.downloadConfigureFile")}}</div>
-        </div>
-      </div>
-    </div>
+  <div class="actions">
+    <div class="primary-button-pink small" @click="clearAll">清除选择</div>
+    <div class="primary-button-pink small" @click="selectAll">全选</div>
+    <div class="primary-button-pink small" @click="next">下一步</div>
   </div>
+  <div class="entities-container">
+      <div v-for="entityId in entitiesId.list" class="entity-box">
+        <div class="checkbox">
+          <input type="checkbox" :checked="selected.IsSelected(entityId)" @change="check($event,entityId)">
+        </div>
+        <div>
+          <img :src="`icon/${entityId}.png`" alt="" class="ui">
+        </div>
+        <span class="name">{{$t(`entities.${entityId}`)}}</span>
+      </div>
+  </div>
+
 </template>
 
 <style scoped>
-.ui{
-  display: inline-block;
-  height: 1rem;
+.small {
+  padding: 1px 10px;
 }
 
-.cat{
-  background-color: var(--color-pink);
-  color: #fff;
-  padding: 10px;
-  text-align: center;
+.checkbox{
+  width: 100%;
+  text-align: right;
+  margin-top: -8px;
+  margin-right: -8px;
 }
 
-.container{
-  padding: 10px;
-  box-sizing: border-box;
+.actions {
+  height: 50px;
+  background: var(--color-blue);
   display: flex;
-  height: calc(100% - 60px);
-  gap: 10px;
+  align-items: center;
+  justify-content: end;
+  padding-right: 10px;
+  gap: 5px;
 }
 
-.entities-list{
-  flex: 1;
-  overflow-y: scroll;
-  height: 100%;
-  border: 2px solid #000;
-  padding: 10px;
-}
-
-.category-list{
-  margin-bottom: 10px;
+.ui {
+  display: inline-block;
+  height: 2rem;
 }
 
 .entities-container {
+  padding: 10px;
+  box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
+  height: calc(100% - 100px);
   gap: 5px;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.entity-container {
-  display: flex;
-  flex-shrink: 1;
-  align-items: center;
-  flex-grow: 1;
-  gap: 5px;
-
-}
-
-.selected-list{
-  flex: 1;
+  background: var(--color-blue);
   overflow-y: scroll;
-  border: 2px solid #000;
-  padding: 5px;
+  flex-wrap: wrap;
 }
 
-.selected{
+.entity-box{
+  min-width: 10px;
+  min-height: 70px;
+  padding: 10px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  background: #fff;
+  border: 2px solid #000;
+  flex-grow: 1;
 }
 
+img{
+  display: block;
+}
+
+.name{
+  word-break:normal;
+  width:6em;
+  display:block;
+  white-space:pre-wrap;
+  word-wrap : break-word ;
+  text-align: center;
+}
 </style>
