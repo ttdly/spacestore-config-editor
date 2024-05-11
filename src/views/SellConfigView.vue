@@ -2,6 +2,7 @@
 import {sellItemsId} from '@/assets/sellItemsId';
 import {useCanSellItems} from "@/stores/canSellItems.js";
 
+
 const canSellItems = useCanSellItems();
 
 const add = (id) => {

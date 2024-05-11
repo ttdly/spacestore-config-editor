@@ -2,9 +2,12 @@
 import {useSelectedStore} from "@/stores/selected.js";
 import draggableComponent from 'vuedraggable'
 import {useRouter} from "vue-router";
+import Dialog from "@/components/Dialog.vue";
+import {ref} from "vue";
 
 const selected = useSelectedStore();
 const router = useRouter();
+const windowShow = ref({count:0,bool:false});
 
 const downLoadJson = () => {
     const list = selected.list;
@@ -27,8 +30,13 @@ const prev = () => {
 </script>
 
 <template>
+  <Dialog :title="$t('nav.desc')" :show="windowShow.bool" :count="windowShow.count">
+    <template #content>
+      {{$t("desc")}}
+    </template>
+  </Dialog>
   <div class="actions">
-    <span>{{$t("nav.drag")}}</span>
+    <div class="primary-button-pink small" @click="()=>{windowShow.count++;windowShow.bool = true}">{{$t("nav.desc")}}</div>
     <div class="primary-button-pink small" @click="prev">{{$t("action.prev")}}</div>
     <div class="primary-button-pink small" @click="downLoadJson">{{$t("action.downloadConfigureFile")}}</div>
   </div>
