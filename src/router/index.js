@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import GoodsConfigView from '../views/GoodsConfigView.vue'
+import GoodsConfigView from '../views/GoodsSelectView.vue'
 import GoodsSettingView from "@/views/GoodsSettingView.vue";
+import SellConfigView from "@/views/SellConfigView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +15,11 @@ const router = createRouter({
       path: '/setting',
       name: 'setting',
       component: GoodsSettingView
+    },
+    {
+      path: '/sell',
+      name: 'sell',
+      component: SellConfigView
     }
   ]
 })

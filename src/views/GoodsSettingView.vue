@@ -1,17 +1,15 @@
 <script setup>
 import {useSelectedStore} from "@/stores/selected.js";
-import {useEntitiesStore} from "@/stores/entities.js";
 import draggableComponent from 'vuedraggable'
 import {useRouter} from "vue-router";
 
 const selected = useSelectedStore();
-const entities = useEntitiesStore();
 const router = useRouter();
 
 const downLoadJson = () => {
-    const list = selected.TuningList(entities.list);
+    const list = selected.list;
     const jsonString = JSON.stringify(list);
-    const blob = new Blob([jsonString], { type: "application/json" });
+    const blob = new Blob([jsonString], {type: "application/json"});
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -22,7 +20,7 @@ const downLoadJson = () => {
     URL.revokeObjectURL(url);
 }
 
-const prev = ()=>{
+const prev = () => {
     router.back();
 }
 
@@ -30,9 +28,9 @@ const prev = ()=>{
 
 <template>
   <div class="actions">
-    <span>拖动可以改变顺序</span>
-    <div class="primary-button-pink small" @click="prev">上一步</div>
-    <div class="primary-button-pink small" @click="downLoadJson">下载配置数据</div>
+    <span>{{$t("nav.drag")}}</span>
+    <div class="primary-button-pink small" @click="prev">{{$t("action.prev")}}</div>
+    <div class="primary-button-pink small" @click="downLoadJson">{{$t("action.downloadConfigureFile")}}</div>
   </div>
   <draggableComponent v-model="selected.list" item-key="index" class="entities-container" handle=".handle">
     <template #item="{element}">
@@ -66,33 +64,29 @@ const prev = ()=>{
   gap: 5px;
 }
 
-.small {
-  padding: 1px 10px;
-}
-
 .entities-container {
   padding: 10px;
   box-sizing: border-box;
   display: flex;
-  height: calc(100% - 110px);
+  max-height: calc(100% - 110px);
   gap: 5px;
   overflow-y: scroll;
   flex-wrap: wrap;
 }
 
-.handle{
+.handle {
   position: absolute;
   top: 5px;
   left: 5px;
   cursor: move;
 }
 
-.ui{
+.ui {
   display: block;
   height: 2rem;
 }
 
-.entity-container{
+.entity-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,7 +98,7 @@ const prev = ()=>{
   position: relative;
 }
 
-.entity-name{
+.entity-name {
   white-space: nowrap;
   display: inline-block;
   width: 6em;
@@ -114,7 +108,7 @@ const prev = ()=>{
   margin-bottom: 5px;
 }
 
-input{
+input {
   width: 8em;
   border-color: #000;
   font-size: 16px;

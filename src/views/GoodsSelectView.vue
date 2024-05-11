@@ -9,12 +9,12 @@ const category = ref([]);
 category.value = Object.keys(entitiesId.list)
 const selected = useSelectedStore();
 const router = useRouter();
-const next = () =>{
+const next = () => {
     router.push("/setting");
 }
 
-const check = (e ,entity_id) => {
-    if (e.target.checked){
+const check = (e, entity_id) => {
+    if (e.target.checked) {
         selected.Add(entity_id)
     } else {
         selected.Remove(entity_id)
@@ -23,7 +23,7 @@ const check = (e ,entity_id) => {
 
 const selectAll = () => {
     selected.list = [];
-    for (let i = 0; i < entitiesId.list.length; i++){
+    for (let i = 0; i < entitiesId.list.length; i++) {
         selected.Add(entitiesId.list[i])
     }
 }
@@ -35,30 +35,26 @@ const clearAll = () => {
 
 <template>
   <div class="actions">
-    <div class="primary-button-pink small" @click="clearAll">清除选择</div>
-    <div class="primary-button-pink small" @click="selectAll">全选</div>
-    <div class="primary-button-pink small" @click="next">下一步</div>
+    <div class="primary-button-pink small" @click="clearAll">{{$t("action.clear")}}</div>
+    <div class="primary-button-pink small" @click="selectAll">{{$t("action.selectAll")}}</div>
+    <div class="primary-button-pink small" @click="next">{{$t("action.next")}}</div>
   </div>
   <div class="entities-container">
-      <div v-for="entityId in entitiesId.list" class="entity-box">
-        <div class="checkbox">
-          <input type="checkbox" :checked="selected.IsSelected(entityId)" @change="check($event,entityId)">
-        </div>
-        <div>
-          <img :src="`icon/${entityId}.png`" alt="" class="ui">
-        </div>
-        <span class="name">{{$t(`entities.${entityId}`)}}</span>
+    <div v-for="entityId in entitiesId.list" class="entity-box">
+      <div class="checkbox">
+        <input :checked="selected.IsSelected(entityId)" type="checkbox" @change="check($event,entityId)">
       </div>
+      <div>
+        <img :src="`icon/${entityId}.png`" alt="" class="ui">
+      </div>
+      <span class="name">{{$t(`entities.${entityId}`)}}</span>
+    </div>
   </div>
 
 </template>
 
 <style scoped>
-.small {
-  padding: 1px 10px;
-}
-
-.checkbox{
+.checkbox {
   width: 100%;
   text-align: right;
   margin-top: -8px;
@@ -91,7 +87,7 @@ const clearAll = () => {
   flex-wrap: wrap;
 }
 
-.entity-box{
+.entity-box {
   min-width: 10px;
   min-height: 70px;
   padding: 10px;
@@ -103,16 +99,16 @@ const clearAll = () => {
   flex-grow: 1;
 }
 
-img{
+img {
   display: block;
 }
 
-.name{
-  word-break:normal;
-  width:6em;
-  display:block;
-  white-space:pre-wrap;
-  word-wrap : break-word ;
+.name {
+  word-break: normal;
+  width: 6em;
+  display: block;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   text-align: center;
 }
 </style>
